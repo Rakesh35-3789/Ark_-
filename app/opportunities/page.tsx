@@ -1,0 +1,7 @@
+'use client';
+import { useEffect,useState } from 'react';
+import { createBrowserSupabase } from '@/lib/supabase-browser';
+import type { Opportunity } from '@/lib/types';
+import { DirectoryCard } from '@/components/DirectoryCard';
+import Link from 'next/link';
+export default function Opportunities(){const[items,setItems]=useState<Opportunity[]>([]);const[loading,setLoading]=useState(true);useEffect(()=>{createBrowserSupabase().from('opportunities').select('*').eq('status','approved').order('published_at',{ascending:false}).then(({data})=>{setItems((data as Opportunity[])||[]);setLoading(false)})},[]);return <main className="section shell"><div className="section-head"><div><div className="eyebrow">Opportunity board</div><h1>Find your next opening</h1><p className="lead">Internships, jobs, hackathons, grants and events reviewed by ARK.</p></div><Link className="button small" href="/submit?type=opportunity">Post opportunity</Link></div>{loading?<div className="empty">Loading opportunities…</div>:items.length?<div className="directory-grid">{items.map(i=><DirectoryCard key={i.id} eyebrow={i.opportunity_type} title={i.title} description={i.description} meta={`${i.organization}${i.location?` · ${i.location}`:''}${i.deadline?` · Apply by ${new Date(i.deadline).toLocaleDateString()}`:''}`} href={i.apply_url||undefined}/>)}</div>:<div className="empty">No approved opportunities yet.</div>}</main>}

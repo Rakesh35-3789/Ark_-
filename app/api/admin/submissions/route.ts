@@ -1,0 +1,4 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { createAdminSupabase, createUserSupabase } from '@/lib/supabase-server';
+async function adminFrom(req:NextRequest){const token=req.headers.get('authorization')?.replace(/^Bearer\s+/,'');if(!token)return null;const userSb=createUserSupabase(token);const{data:{user}}=await userSb.auth.getUser();if(!user)return null;const admin=createAdminSupabase();const{data}=await admin.from('profiles').select('role').eq('id',user.id).single();return data?.role==='admin'?user:null}
+export async function GET(req:NextRequest){try{if(!await adminFrom(req))return NextResponse.json({error:'Forbidden'},{status:403});const{data,error}=await createAdminSupabase().from('stories').select('*').eq('status','pending').order('created_at',{ascending:false});if(error)throw error;return NextResponse.json({items:data})}catch(e){return NextResponse.json({error:e instanceof Error?e.message:'Server error'},{status:500})}}

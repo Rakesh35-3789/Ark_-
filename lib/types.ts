@@ -1,0 +1,7 @@
+export type Status = 'pending' | 'approved' | 'rejected';
+export type Profile = { id:string; full_name:string|null; username:string|null; bio:string|null; avatar_url:string|null; city:string|null; role:'user'|'admin'|'editor'; verified?:boolean; created_at:string };
+export type Story = { id:string; author_id:string; title:string; slug:string; excerpt:string; content:string; category:string; city:string|null; cover_url:string|null; status:Status; published_at:string|null; created_at:string; profiles?:Pick<Profile,'full_name'|'username'|'avatar_url'|'verified'>|null };
+export type ResearchPaper = { id:string; author_id:string; title:string; abstract:string; field:string; institution:string|null; paper_url:string|null; status:Status; published_at:string|null; created_at:string; profiles?:Pick<Profile,'full_name'|'username'>|null };
+export type Founder = { id:string; owner_id:string; name:string; company:string; role_title:string|null; city:string|null; bio:string; website:string|null; status:Status; published_at:string|null; created_at:string };
+export type Opportunity = { id:string; owner_id:string; title:string; organization:string; opportunity_type:string; location:string|null; description:string; apply_url:string|null; deadline:string|null; status:Status; published_at:string|null; created_at:string };
+export type Comment = { id:string; story_id:string; user_id:string; body:string; created_at:string; profiles?:Pick<Profile,'full_name'|'username'|'avatar_url'>|null };

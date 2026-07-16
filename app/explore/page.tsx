@@ -1,0 +1,7 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+'use client';
+import { FormEvent, useEffect, useState } from 'react';
+import { createBrowserSupabase } from '@/lib/supabase-browser';
+import type { Story } from '@/lib/types';
+import { StoryCard } from '@/components/StoryCard';
+export default function Explore(){const[stories,setStories]=useState<Story[]>([]);const[loading,setLoading]=useState(true);async function load(q=''){setLoading(true);const sb=createBrowserSupabase();let query=sb.from('stories').select('*, profiles(full_name,username,avatar_url)').eq('status','approved').order('published_at',{ascending:false});if(q)query=query.or(`title.ilike.%${q}%,excerpt.ilike.%${q}%,category.ilike.%${q}%,city.ilike.%${q}%`);const{data}=await query.limit(30);setStories((data as Story[])||[]);setLoading(false)}useEffect(()=>{load()},[]);function search(e:FormEvent<HTMLFormElement>){e.preventDefault();load(String(new FormData(e.currentTarget).get('q')||''))}return <main className="section shell"><div className="section-head"><div><div className="eyebrow">Explore ARK</div><h1>Stories, research and builders</h1></div></div><form className="search" onSubmit={search}><input name="q" placeholder="Search title, category or city"/><button className="button small">Search</button></form>{loading?<div className="empty">Searching ARK…</div>:stories.length?<div className="card-grid">{stories.map(s=><StoryCard key={s.id} story={s}/>)}</div>:<div className="empty">No approved content matched your search.</div>}</main>}

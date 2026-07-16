@@ -1,0 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
+import { createClient } from '@supabase/supabase-js';
+import { notFound } from 'next/navigation';
+import { StoryInteractions } from '@/components/StoryInteractions';
+export const dynamic='force-dynamic';
+export default async function StoryPage({params}:{params:Promise<{slug:string}>}){const{slug}=await params;const url=process.env.NEXT_PUBLIC_SUPABASE_URL;const key=process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;if(!url||!key)return <main className="section shell"><div className="empty">Supabase is not configured yet.</div></main>;const sb=createClient(url,key);const{data}=await sb.from('stories').select('*, profiles(full_name,username)').eq('slug',slug).eq('status','approved').maybeSingle();if(!data)notFound();return <main className="article shell"><div className="eyebrow">{data.category}{data.city?` · ${data.city}`:''}</div><h1>{data.title}</h1><p className="lead">{data.excerpt}</p><div className="byline">By {data.profiles?.full_name||data.profiles?.username||'ARK member'} · {new Date(data.published_at||data.created_at).toLocaleDateString()}</div>{data.cover_url&&<img className="article-cover" src={data.cover_url} alt=""/>}<div className="article-content">{String(data.content).split('\n').map((p:string,i:number)=><p key={i}>{p}</p>)}</div><StoryInteractions storyId={data.id}/></main>}
