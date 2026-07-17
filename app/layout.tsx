@@ -1,13 +1,52 @@
-import type { Metadata } from 'next';
-import './globals.css';
-import { AuthProvider } from '@/components/AuthProvider';
-import { Header } from '@/components/Header';
+import type { Metadata } from "next";
+import "./globals.css";
+
+import { AuthProvider } from "@/components/AuthProvider";
+import { Header } from "@/components/Header";
+import { ArkLoader } from "@/components/ArkLoader";
 
 export const metadata: Metadata = {
-  title: 'ARK — India’s Innovation Network',
-  description: 'Discover and publish startup stories, research, founders and opportunities.',
+  title: "ARK Chronicles",
+  description: "India's Innovation Network",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body><AuthProvider><Header />{children}<footer className="footer"><div className="shell"><b>ARK</b><span>Built for trustworthy innovation discovery.</span></div></footer></AuthProvider></body></html>;
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body suppressHydrationWarning>
+        <ArkLoader />
+
+        <AuthProvider>
+          <Header />
+
+          <main>{children}</main>
+
+          <footer className="chronicles-footer">
+            <div className="chronicles-footer-container">
+              <div className="footer-brand">
+                <h2>A.R.K</h2>
+                <p>Architects of Rising Knowledge</p>
+              </div>
+
+              <div className="footer-links">
+                <a href="/explore">Explore</a>
+                <a href="/research">Research</a>
+                <a href="/founders">Founders</a>
+                <a href="/opportunities">Opportunities</a>
+                <a href="/submit">Submit</a>
+              </div>
+
+              <div className="footer-bottom">
+                © {new Date().getFullYear()} ARK Chronicles. All rights reserved.
+              </div>
+            </div>
+          </footer>
+        </AuthProvider>
+      </body>
+    </html>
+  );
 }
