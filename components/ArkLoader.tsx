@@ -3,14 +3,11 @@
 
 import { useEffect, useState } from 'react';
 
-const STORAGE_KEY = 'ark-clean-loader-seen';
-
-const words = ['Builders', 'Researchers', 'Founders', 'Innovators'];
+const STORAGE_KEY = 'ark-editorial-opening-v2';
 
 export function ArkLoader() {
   const [visible, setVisible] = useState(true);
-  const [closing, setClosing] = useState(false);
-  const [wordIndex, setWordIndex] = useState(0);
+  const [leaving, setLeaving] = useState(false);
 
   useEffect(() => {
     const alreadySeen =
@@ -21,23 +18,23 @@ export function ArkLoader() {
       return;
     }
 
-    const wordTimer = window.setInterval(() => {
-      setWordIndex((current) => (current + 1) % words.length);
-    }, 700);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
 
-    const closeTimer = window.setTimeout(() => {
-      setClosing(true);
-    }, 3600);
+    const exitTimer = window.setTimeout(() => {
+      setLeaving(true);
+    }, 3200);
 
     const removeTimer = window.setTimeout(() => {
       window.sessionStorage.setItem(STORAGE_KEY, 'true');
+      document.body.style.overflow = previousOverflow;
       setVisible(false);
-    }, 4300);
+    }, 4250);
 
     return () => {
-      window.clearInterval(wordTimer);
-      window.clearTimeout(closeTimer);
+      window.clearTimeout(exitTimer);
       window.clearTimeout(removeTimer);
+      document.body.style.overflow = previousOverflow;
     };
   }, []);
 
@@ -48,309 +45,443 @@ export function ArkLoader() {
   return (
     <>
       <div
-        className={`ark-clean-loader ${
-          closing ? 'ark-clean-loader-closing' : ''
+        className={`ark-opening-loader ${
+          leaving ? 'ark-opening-loader-leaving' : ''
         }`}
         role="status"
-        aria-label="Opening ARK"
+        aria-label="Opening ARK Chronicles"
       >
-        <div className="ark-clean-grid" />
+        <div className="ark-opening-panel ark-opening-panel-left" />
+        <div className="ark-opening-panel ark-opening-panel-right" />
 
-        <div className="ark-clean-line ark-clean-line-top" />
-        <div className="ark-clean-line ark-clean-line-bottom" />
+        <div className="ark-opening-paper-texture" />
 
-        <div className="ark-clean-content">
-          <div className="ark-clean-kicker">
-            India&apos;s Innovation Chronicle
+        <div className="ark-opening-topbar">
+          <span>INDIA</span>
+          <span>EST. 2026</span>
+          <span>THE INNOVATION CHRONICLE</span>
+        </div>
+
+        <div className="ark-opening-rule ark-opening-rule-top" />
+
+        <div className="ark-opening-content">
+          <p className="ark-opening-eyebrow">
+            Architects of Rising Knowledge
+          </p>
+
+          <div className="ark-opening-logo" aria-hidden="true">
+            <span className="ark-opening-letter ark-opening-letter-a">A</span>
+
+            <span className="ark-opening-dot ark-opening-dot-one">.</span>
+
+            <span className="ark-opening-letter ark-opening-letter-r">R</span>
+
+            <span className="ark-opening-dot ark-opening-dot-two">.</span>
+
+            <span className="ark-opening-letter ark-opening-letter-k">K</span>
           </div>
 
-          <div className="ark-clean-logo" aria-hidden="true">
-            <span className="ark-letter ark-letter-a">A</span>
-            <span className="ark-letter ark-letter-r">R</span>
-            <span className="ark-letter ark-letter-k">K</span>
+          <div className="ark-opening-chronicles-mask">
+            <span>CHRONICLES</span>
           </div>
 
-          <div className="ark-clean-divider">
+          <div className="ark-opening-center-rule">
+            <span />
+            <i />
             <span />
           </div>
 
-          <h1>Architects of Rising Knowledge</h1>
+          <p className="ark-opening-description">
+            Stories of founders, researchers and builders shaping India&apos;s
+            next chapter.
+          </p>
 
-          <div className="ark-clean-changing">
-            <span>Connecting India&apos;s</span>
-            <strong key={words[wordIndex]}>{words[wordIndex]}</strong>
+          <div className="ark-opening-progress">
+            <span />
           </div>
 
-          <div className="ark-clean-progress">
-            <span className="ark-progress-bar" />
-          </div>
+          <p className="ark-opening-status">Opening today&apos;s edition</p>
         </div>
 
-        <div className="ark-clean-corner ark-clean-left">
-          ARK / 2026
+        <div className="ark-opening-rule ark-opening-rule-bottom" />
+
+        <div className="ark-opening-footer">
+          <span>FOUNDERS</span>
+          <span>RESEARCH</span>
+          <span>INNOVATION</span>
+          <span>OPPORTUNITIES</span>
         </div>
 
-        <div className="ark-clean-corner ark-clean-right">
-          Opening Chronicle
-        </div>
+        <div className="ark-opening-flash" />
       </div>
 
       <style jsx global>{`
-        .ark-clean-loader {
+        .ark-opening-loader {
           position: fixed;
           inset: 0;
           z-index: 999999;
           display: grid;
           place-items: center;
           overflow: hidden;
-          background:
-            radial-gradient(
-              circle at 50% 42%,
-              rgba(58, 72, 112, 0.12),
-              transparent 32%
-            ),
-            #08090b;
-          color: #f2efe8;
-          opacity: 1;
-          transform: scale(1);
-          transition:
-            opacity 700ms cubic-bezier(0.76, 0, 0.24, 1),
-            transform 850ms cubic-bezier(0.76, 0, 0.24, 1),
-            filter 700ms ease;
+          background: #f2efe6;
+          color: #101010;
+          isolation: isolate;
         }
 
-        .ark-clean-loader-closing {
-          opacity: 0;
-          transform: scale(1.05);
-          filter: blur(14px);
-          pointer-events: none;
-        }
-
-        .ark-clean-grid {
+        .ark-opening-paper-texture {
           position: absolute;
-          inset: -8%;
-          opacity: 0.1;
+          inset: 0;
+          z-index: -1;
+          pointer-events: none;
+          opacity: 0.42;
           background-image:
-            linear-gradient(
-              rgba(255, 255, 255, 0.11) 1px,
-              transparent 1px
+            radial-gradient(
+              circle at 20% 30%,
+              rgba(30, 30, 30, 0.04) 0 1px,
+              transparent 1.5px
+            ),
+            radial-gradient(
+              circle at 80% 70%,
+              rgba(30, 30, 30, 0.03) 0 1px,
+              transparent 1.5px
             ),
             linear-gradient(
               90deg,
-              rgba(255, 255, 255, 0.11) 1px,
-              transparent 1px
+              rgba(255, 255, 255, 0.28),
+              transparent 35%,
+              rgba(0, 0, 0, 0.025) 72%,
+              transparent
             );
-          background-size: 72px 72px;
-          transform: perspective(800px) rotateX(59deg) translateY(22%);
-          transform-origin: center bottom;
-          animation: arkCleanGridMove 8s linear infinite;
-          mask-image: radial-gradient(circle at center, black, transparent 70%);
+          background-size:
+            8px 8px,
+            11px 11px,
+            100% 100%;
+          mix-blend-mode: multiply;
         }
 
-        .ark-clean-line {
+        .ark-opening-panel {
+          width: 50.5%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          z-index: 20;
+          background: #f2efe6;
+          pointer-events: none;
+          transform: translateX(0);
+        }
+
+        .ark-opening-panel-left {
+          left: 0;
+          border-right: 1px solid rgba(16, 16, 16, 0.08);
+        }
+
+        .ark-opening-panel-right {
+          right: 0;
+          border-left: 1px solid rgba(16, 16, 16, 0.08);
+        }
+
+        .ark-opening-loader:not(.ark-opening-loader-leaving)
+          .ark-opening-panel {
+          visibility: hidden;
+        }
+
+        .ark-opening-loader-leaving .ark-opening-panel-left {
+          visibility: visible;
+          animation: arkPanelExitLeft 950ms
+            cubic-bezier(0.76, 0, 0.24, 1) forwards;
+        }
+
+        .ark-opening-loader-leaving .ark-opening-panel-right {
+          visibility: visible;
+          animation: arkPanelExitRight 950ms
+            cubic-bezier(0.76, 0, 0.24, 1) forwards;
+        }
+
+        .ark-opening-topbar {
+          width: min(1120px, calc(100% - 64px));
+          position: absolute;
+          top: 30px;
+          left: 50%;
+          display: flex;
+          justify-content: space-between;
+          color: rgba(16, 16, 16, 0.58);
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 8px;
+          font-weight: 800;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          opacity: 0;
+          transform: translateY(-10px);
+          animation: arkTopbarReveal 500ms 150ms ease forwards;
+        }
+
+        .ark-opening-rule {
+          width: min(1120px, calc(100% - 64px));
+          height: 1px;
           position: absolute;
           left: 50%;
-          width: min(88vw, 1180px);
-          height: 1px;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(255, 255, 255, 0.14),
-            transparent
-          );
-          transform: translateX(-50%);
+          overflow: hidden;
+          background: rgba(16, 16, 16, 0.17);
+          transform: translateX(-50%) scaleX(0);
+          animation: arkRuleReveal 850ms 260ms
+            cubic-bezier(0.65, 0, 0.35, 1) forwards;
         }
 
-        .ark-clean-line-top {
-          top: 19%;
+        .ark-opening-rule-top {
+          top: 57px;
+          transform-origin: left;
         }
 
-        .ark-clean-line-bottom {
-          bottom: 19%;
+        .ark-opening-rule-bottom {
+          bottom: 57px;
+          transform-origin: right;
         }
 
-        .ark-clean-content {
-          width: min(920px, calc(100% - 40px));
+        .ark-opening-content {
+          width: min(1000px, calc(100% - 40px));
           position: relative;
-          z-index: 4;
+          z-index: 3;
           display: flex;
           flex-direction: column;
           align-items: center;
           text-align: center;
         }
 
-        .ark-clean-kicker {
-          margin-bottom: 34px;
-          color: rgba(255, 255, 255, 0.47);
+        .ark-opening-eyebrow {
+          margin: 0 0 27px;
+          color: #263d89;
           font-family: Arial, Helvetica, sans-serif;
-          font-size: 10px;
-          font-weight: 800;
-          letter-spacing: 0.32em;
+          font-size: 9px;
+          font-weight: 900;
+          letter-spacing: 0.33em;
           text-transform: uppercase;
           opacity: 0;
-          animation: arkCleanFadeUp 650ms 120ms forwards;
+          transform: translateY(12px);
+          animation: arkFadeUp 600ms 320ms ease forwards;
         }
 
-        .ark-clean-logo {
-          display: flex;
-          align-items: baseline;
-          justify-content: center;
-          gap: 0;
-          line-height: 0.8;
-          white-space: nowrap;
-        }
-
-        .ark-letter {
-          display: inline-block;
-          font-family: Arial, Helvetica, sans-serif;
-          font-size: clamp(92px, 15vw, 220px);
-          font-weight: 950;
-          letter-spacing: -0.1em;
-          opacity: 0;
-          transform: translateY(85px) scale(0.75);
-          filter: blur(14px);
-        }
-
-        .ark-letter-a {
-          color: #eee9df;
-          animation: arkCleanLetterReveal 800ms 250ms forwards;
-        }
-
-        .ark-letter-r {
-          color: #495f91;
-          animation: arkCleanLetterReveal 800ms 600ms forwards;
-          text-shadow:
-            0 0 24px rgba(73, 95, 145, 0.34),
-            0 0 60px rgba(73, 95, 145, 0.16);
-        }
-
-        .ark-letter-k {
-          color: #b8bcc3;
-          animation: arkCleanLetterReveal 800ms 950ms forwards;
-        }
-
-        .ark-clean-divider {
-          width: min(520px, 76%);
-          height: 1px;
-          margin: 37px 0 24px;
-          overflow: hidden;
-          background: rgba(255, 255, 255, 0.11);
-        }
-
-        .ark-clean-divider span {
-          width: 100%;
-          height: 100%;
-          display: block;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            #495f91,
-            #f1eee8,
-            #495f91,
-            transparent
-          );
-          transform: translateX(-100%);
-          animation: arkCleanLineDraw 1.3s 1.3s forwards;
-        }
-
-        .ark-clean-content h1 {
-          margin: 0;
-          color: rgba(255, 255, 255, 0.9);
-          font-family: Georgia, 'Times New Roman', serif;
-          font-size: clamp(18px, 2.4vw, 30px);
-          font-weight: 400;
-          letter-spacing: 0.06em;
-          opacity: 0;
-          transform: translateY(14px);
-          animation: arkCleanFadeUp 650ms 1.55s forwards;
-        }
-
-        .ark-clean-changing {
-          min-height: 48px;
+        .ark-opening-logo {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 8px;
-          margin-top: 20px;
-          color: rgba(255, 255, 255, 0.42);
-          font-family: Arial, Helvetica, sans-serif;
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
+          line-height: 0.72;
+          white-space: nowrap;
+        }
+
+        .ark-opening-letter,
+        .ark-opening-dot {
+          display: inline-block;
+          font-family: Georgia, 'Times New Roman', serif;
           opacity: 0;
-          animation: arkCleanFadeUp 650ms 1.85s forwards;
         }
 
-        .ark-clean-changing strong {
-          color: #8292b8;
+        .ark-opening-letter {
+          font-size: clamp(100px, 17vw, 224px);
+          font-weight: 500;
+          letter-spacing: -0.085em;
+          transform: translateY(65px);
+          clip-path: inset(100% 0 0);
+        }
+
+        .ark-opening-dot {
+          margin: 0 0.025em;
+          color: #263d89;
+          font-size: clamp(60px, 9vw, 120px);
+          transform: scale(0);
+        }
+
+        .ark-opening-letter-a {
+          animation: arkLetterRise 720ms 500ms
+            cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .ark-opening-dot-one {
+          animation: arkDotReveal 330ms 940ms ease forwards;
+        }
+
+        .ark-opening-letter-r {
+          animation: arkLetterRise 720ms 720ms
+            cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .ark-opening-dot-two {
+          animation: arkDotReveal 330ms 1160ms ease forwards;
+        }
+
+        .ark-opening-letter-k {
+          animation: arkLetterRise 720ms 940ms
+            cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .ark-opening-chronicles-mask {
+          max-width: 100%;
+          margin-top: 27px;
+          overflow: hidden;
+        }
+
+        .ark-opening-chronicles-mask span {
+          display: block;
+          color: #263d89;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: clamp(17px, 2.5vw, 34px);
           font-weight: 900;
-          animation: arkCleanWordReveal 520ms ease both;
+          letter-spacing: clamp(0.2em, 1vw, 0.48em);
+          text-indent: clamp(0.2em, 1vw, 0.48em);
+          transform: translateY(110%);
+          animation: arkChroniclesReveal 650ms 1.3s
+            cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
-        .ark-clean-progress {
-          width: min(420px, 78%);
+        .ark-opening-center-rule {
+          width: min(470px, 72%);
+          display: grid;
+          grid-template-columns: 1fr auto 1fr;
+          align-items: center;
+          gap: 13px;
+          margin-top: 26px;
+          opacity: 0;
+          animation: arkSimpleFade 500ms 1.65s ease forwards;
+        }
+
+        .ark-opening-center-rule span {
+          height: 1px;
+          background: rgba(16, 16, 16, 0.27);
+          transform: scaleX(0);
+          animation: arkSmallRuleReveal 580ms 1.72s ease forwards;
+        }
+
+        .ark-opening-center-rule span:first-child {
+          transform-origin: right;
+        }
+
+        .ark-opening-center-rule span:last-child {
+          transform-origin: left;
+        }
+
+        .ark-opening-center-rule i {
+          width: 6px;
+          height: 6px;
+          display: block;
+          border: 1px solid #263d89;
+          transform: rotate(45deg);
+        }
+
+        .ark-opening-description {
+          max-width: 590px;
+          margin: 22px 0 0;
+          color: rgba(16, 16, 16, 0.63);
+          font-family: Georgia, 'Times New Roman', serif;
+          font-size: clamp(13px, 1.5vw, 17px);
+          line-height: 1.65;
+          opacity: 0;
+          transform: translateY(12px);
+          animation: arkFadeUp 550ms 1.85s ease forwards;
+        }
+
+        .ark-opening-progress {
+          width: min(330px, 70%);
           height: 2px;
           margin-top: 30px;
           overflow: hidden;
-          background: rgba(255, 255, 255, 0.11);
+          background: rgba(16, 16, 16, 0.12);
           opacity: 0;
-          animation: arkCleanFadeUp 500ms 2.05s forwards;
+          animation: arkSimpleFade 300ms 2.05s ease forwards;
         }
 
-        .ark-progress-bar {
+        .ark-opening-progress span {
           width: 0;
           height: 100%;
           display: block;
-          background: linear-gradient(90deg, #495f91, #f2efe8);
-          animation: arkCleanProgress 1.8s 2.1s
+          background: #263d89;
+          animation: arkProgressFill 1.05s 2.08s
             cubic-bezier(0.65, 0, 0.35, 1) forwards;
         }
 
-        .ark-clean-corner {
-          position: absolute;
-          bottom: 24px;
-          color: rgba(255, 255, 255, 0.27);
-          font-family: monospace;
-          font-size: 9px;
-          letter-spacing: 0.12em;
+        .ark-opening-status {
+          margin: 12px 0 0;
+          color: rgba(16, 16, 16, 0.43);
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 7px;
+          font-weight: 800;
+          letter-spacing: 0.22em;
           text-transform: uppercase;
           opacity: 0;
-          animation: arkCleanFadeUp 450ms 2.25s forwards;
+          animation: arkStatusPulse 950ms 2.12s ease-in-out infinite alternate;
         }
 
-        .ark-clean-left {
-          left: 27px;
+        .ark-opening-footer {
+          width: min(1120px, calc(100% - 64px));
+          position: absolute;
+          bottom: 30px;
+          left: 50%;
+          display: flex;
+          justify-content: space-between;
+          color: rgba(16, 16, 16, 0.48);
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 7px;
+          font-weight: 900;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          opacity: 0;
+          animation: arkSimpleFade 500ms 2.15s ease forwards;
         }
 
-        .ark-clean-right {
-          right: 27px;
+        .ark-opening-flash {
+          position: absolute;
+          inset: 0;
+          z-index: 15;
+          background: white;
+          opacity: 0;
+          pointer-events: none;
         }
 
-        @keyframes arkCleanLetterReveal {
+        .ark-opening-loader-leaving .ark-opening-flash {
+          animation: arkExitFlash 500ms ease forwards;
+        }
+
+        .ark-opening-loader-leaving .ark-opening-content,
+        .ark-opening-loader-leaving .ark-opening-topbar,
+        .ark-opening-loader-leaving .ark-opening-rule,
+        .ark-opening-loader-leaving .ark-opening-footer {
+          animation: arkContentExit 480ms
+            cubic-bezier(0.76, 0, 0.24, 1) forwards;
+        }
+
+        @keyframes arkLetterRise {
           0% {
             opacity: 0;
-            transform: translateY(85px) scale(0.75);
-            filter: blur(14px);
-          }
-
-          70% {
-            opacity: 1;
-            transform: translateY(-7px) scale(1.035);
-            filter: blur(0);
+            transform: translateY(65px);
+            clip-path: inset(100% 0 0);
           }
 
           100% {
             opacity: 1;
-            transform: translateY(0) scale(1);
-            filter: blur(0);
+            transform: translateY(0);
+            clip-path: inset(0 0 0);
           }
         }
 
-        @keyframes arkCleanFadeUp {
+        @keyframes arkDotReveal {
+          0% {
+            opacity: 0;
+            transform: scale(0) rotate(-45deg);
+          }
+
+          75% {
+            opacity: 1;
+            transform: scale(1.22) rotate(4deg);
+          }
+
+          100% {
+            opacity: 1;
+            transform: scale(1) rotate(0);
+          }
+        }
+
+        @keyframes arkChroniclesReveal {
           from {
             opacity: 0;
-            transform: translateY(16px);
+            transform: translateY(110%);
           }
 
           to {
@@ -359,41 +490,67 @@ export function ArkLoader() {
           }
         }
 
-        @keyframes arkCleanLineDraw {
-          from {
-            transform: translateX(-100%);
-          }
-
-          to {
-            transform: translateX(100%);
-          }
-        }
-
-        @keyframes arkCleanWordReveal {
+        @keyframes arkFadeUp {
           from {
             opacity: 0;
-            transform: translateY(9px);
-            filter: blur(4px);
+            transform: translateY(12px);
           }
 
           to {
             opacity: 1;
             transform: translateY(0);
-            filter: blur(0);
           }
         }
 
-        @keyframes arkCleanProgress {
+        @keyframes arkTopbarReveal {
+          from {
+            opacity: 0;
+            transform: translate(-50%, -10px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translate(-50%, 0);
+          }
+        }
+
+        @keyframes arkRuleReveal {
+          from {
+            transform: translateX(-50%) scaleX(0);
+          }
+
+          to {
+            transform: translateX(-50%) scaleX(1);
+          }
+        }
+
+        @keyframes arkSmallRuleReveal {
+          from {
+            transform: scaleX(0);
+          }
+
+          to {
+            transform: scaleX(1);
+          }
+        }
+
+        @keyframes arkSimpleFade {
+          from {
+            opacity: 0;
+          }
+
+          to {
+            opacity: 1;
+          }
+        }
+
+        @keyframes arkProgressFill {
           0% {
             width: 0;
           }
 
-          50% {
-            width: 46%;
-          }
-
-          78% {
-            width: 76%;
+          72% {
+            width: 78%;
           }
 
           100% {
@@ -401,63 +558,135 @@ export function ArkLoader() {
           }
         }
 
-        @keyframes arkCleanGridMove {
+        @keyframes arkStatusPulse {
           from {
-            background-position: 0 0;
+            opacity: 0.36;
           }
 
           to {
-            background-position: 72px 72px;
+            opacity: 0.9;
+          }
+        }
+
+        @keyframes arkContentExit {
+          from {
+            opacity: 1;
+            transform: scale(1);
+            filter: blur(0);
+          }
+
+          to {
+            opacity: 0;
+            transform: scale(0.94);
+            filter: blur(8px);
+          }
+        }
+
+        @keyframes arkExitFlash {
+          0% {
+            opacity: 0;
+          }
+
+          45% {
+            opacity: 0.5;
+          }
+
+          100% {
+            opacity: 0;
+          }
+        }
+
+        @keyframes arkPanelExitLeft {
+          0% {
+            transform: translateX(0);
+          }
+
+          100% {
+            transform: translateX(-102%);
+          }
+        }
+
+        @keyframes arkPanelExitRight {
+          0% {
+            transform: translateX(0);
+          }
+
+          100% {
+            transform: translateX(102%);
           }
         }
 
         @media (max-width: 650px) {
-          .ark-clean-content {
-            width: min(100% - 28px, 920px);
+          .ark-opening-topbar {
+            width: calc(100% - 32px);
+            top: 21px;
           }
 
-          .ark-clean-kicker {
-            margin-bottom: 25px;
-            font-size: 8px;
-            letter-spacing: 0.22em;
+          .ark-opening-topbar span:nth-child(2) {
+            display: none;
           }
 
-          .ark-letter {
-            font-size: clamp(78px, 24vw, 118px);
+          .ark-opening-rule {
+            width: calc(100% - 32px);
           }
 
-          .ark-clean-content h1 {
-            font-size: 17px;
-            line-height: 1.45;
+          .ark-opening-rule-top {
+            top: 46px;
           }
 
-          .ark-clean-changing {
-            flex-direction: column;
-            gap: 5px;
+          .ark-opening-rule-bottom {
+            bottom: 46px;
           }
 
-          .ark-clean-line {
+          .ark-opening-content {
             width: calc(100% - 28px);
           }
 
-          .ark-clean-corner {
-            bottom: 17px;
+          .ark-opening-eyebrow {
+            margin-bottom: 22px;
             font-size: 7px;
+            letter-spacing: 0.24em;
           }
 
-          .ark-clean-left {
-            left: 16px;
+          .ark-opening-letter {
+            font-size: clamp(80px, 27vw, 122px);
           }
 
-          .ark-clean-right {
-            right: 16px;
+          .ark-opening-dot {
+            font-size: clamp(42px, 13vw, 70px);
+          }
+
+          .ark-opening-chronicles-mask {
+            margin-top: 20px;
+          }
+
+          .ark-opening-chronicles-mask span {
+            font-size: 15px;
+            letter-spacing: 0.25em;
+            text-indent: 0.25em;
+          }
+
+          .ark-opening-description {
+            max-width: 330px;
+            font-size: 13px;
+            line-height: 1.55;
+          }
+
+          .ark-opening-footer {
+            width: calc(100% - 32px);
+            bottom: 21px;
+          }
+
+          .ark-opening-footer span:nth-child(2),
+          .ark-opening-footer span:nth-child(3) {
+            display: none;
           }
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .ark-clean-loader *,
-          .ark-clean-loader *::before,
-          .ark-clean-loader *::after {
+          .ark-opening-loader *,
+          .ark-opening-loader *::before,
+          .ark-opening-loader *::after {
             animation-duration: 0.01ms !important;
             animation-delay: 0ms !important;
             animation-iteration-count: 1 !important;
