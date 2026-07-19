@@ -99,25 +99,37 @@ export function Header() {
           </Link>
 
           <nav className="ark-desktop-navigation" aria-label="Main navigation">
-            <Link href="/explore" className={isActive('/explore') ? 'active' : ''}>
-              Chronicles
-            </Link>
+  <Link href="/explore" className={isActive('/explore') ? 'active' : ''}>
+    Chronicles
+  </Link>
 
-            <Link href="/founders" className={isActive('/founders') ? 'active' : ''}>
-              Founders
-            </Link>
+  <Link href="/founders" className={isActive('/founders') ? 'active' : ''}>
+    Founders
+  </Link>
 
-            <Link href="/research" className={isActive('/research') ? 'active' : ''}>
-              Research
-            </Link>
+  <Link href="/research" className={isActive('/research') ? 'active' : ''}>
+    Research
+  </Link>
 
-            <Link
-              href="/opportunities"
-              className={isActive('/opportunities') ? 'active' : ''}
-            >
-              Opportunities
-            </Link>
-          </nav>
+  <Link href="/investors" className={isActive('/investors') ? 'active' : ''}>
+    Investors
+  </Link>
+
+  <Link href="/colleges" className={isActive('/colleges') ? 'active' : ''}>
+    College Collabs
+  </Link>
+
+  <Link href="/about" className={isActive('/about') ? 'active' : ''}>
+    About
+  </Link>
+
+  <Link
+    href="/opportunities"
+    className={isActive('/opportunities') ? 'active' : ''}
+  >
+    Opportunities
+  </Link>
+</nav>
 
           <div className="ark-header-actions">
             {!loading &&

@@ -6,16 +6,12 @@ import {
   BookOpen,
   BriefcaseBusiness,
   Building2,
-  CalendarDays,
-  MapPin,
-  Menu,
   Rocket,
   Search,
   ShieldCheck,
   Users,
-  X,
 } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { createBrowserSupabase } from '@/lib/supabase-browser';
 
@@ -45,7 +41,6 @@ type ChronicleStory = {
   } | null;
 };
 
-const cities = ['Bengaluru', 'Mumbai', 'Delhi', 'Hyderabad'];
 
 const sections = [
   {
@@ -82,14 +77,6 @@ const sections = [
   },
 ];
 
-function formatDate(date: Date) {
-  return new Intl.DateTimeFormat('en-IN', {
-    weekday: 'long',
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric',
-  }).format(date);
-}
 
 function storyDate(value: string | null | undefined) {
   if (!value) return '';
@@ -104,9 +91,7 @@ function storyDate(value: string | null | undefined) {
 export default function HomePage() {
   const [stories, setStories] = useState<ChronicleStory[]>([]);
   const [loading, setLoading] = useState(true);
-  const [menuOpen, setMenuOpen] = useState(false);
 
-  const today = useMemo(() => formatDate(new Date()), []);
 
   useEffect(() => {
     let mounted = true;
@@ -199,86 +184,6 @@ export default function HomePage() {
 
   return (
     <main className="chronicles-home">
-      <header className="chronicles-header">
-        <div className="chronicles-topbar">
-          <div className="chronicles-container topbar-inner">
-            <span className="topbar-date">
-              <CalendarDays size={14} />
-              {today}
-            </span>
-
-            <span className="topbar-tagline">
-              Architects of Rising Knowledge
-            </span>
-
-            <div className="city-window">
-              <div className="city-track">
-                {[...cities, ...cities].map((city, index) => (
-                  <span key={`${city}-${index}`}>
-                    <MapPin size={12} />
-                    {city}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="chronicles-container masthead-row">
-          <Link href="/" className="chronicles-brand">
-            <strong>A.R.K</strong>
-
-            <span>
-              CHRONICLES
-              <small>Architects of Rising Knowledge</small>
-            </span>
-          </Link>
-
-          <nav className={`chronicles-nav ${menuOpen ? 'open' : ''}`}>
-            <Link href="/explore" onClick={() => setMenuOpen(false)}>
-              Chronicles
-            </Link>
-
-            <Link href="/founders" onClick={() => setMenuOpen(false)}>
-              Founders
-            </Link>
-
-            <Link href="/research" onClick={() => setMenuOpen(false)}>
-              Research
-            </Link>
-
-            <Link href="/opportunities" onClick={() => setMenuOpen(false)}>
-              Opportunities
-            </Link>
-
-            <Link
-              href="/submit"
-              className="nav-submit"
-              onClick={() => setMenuOpen(false)}
-            >
-              Submit Story
-            </Link>
-
-            <Link
-              href="/auth"
-              className="nav-account"
-              onClick={() => setMenuOpen(false)}
-            >
-              Join ARK
-            </Link>
-          </nav>
-
-          <button
-            type="button"
-            className="chronicles-menu"
-            onClick={() => setMenuOpen((current) => !current)}
-            aria-label="Toggle navigation"
-          >
-            {menuOpen ? <X size={23} /> : <Menu size={23} />}
-          </button>
-        </div>
-      </header>
-
       <section className="chronicles-opening">
         <div className="opening-grid-lines" />
 
@@ -617,146 +522,6 @@ export default function HomePage() {
         .chronicles-container {
           width: min(1280px, calc(100% - 48px));
           margin-inline: auto;
-        }
-
-        .chronicles-header {
-          position: relative;
-          z-index: 50;
-          border-bottom: 1px solid #dedede;
-          background: rgba(255, 255, 255, 0.97);
-        }
-
-        .chronicles-topbar {
-          min-height: 38px;
-          border-bottom: 1px solid #e5e5e5;
-          background: #f5f5f5;
-        }
-
-        .topbar-inner {
-          min-height: 38px;
-          display: grid;
-          grid-template-columns: 1fr auto 1fr;
-          align-items: center;
-          gap: 25px;
-          color: #565656;
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
-        }
-
-        .topbar-date {
-          display: flex;
-          align-items: center;
-          gap: 7px;
-        }
-
-        .topbar-tagline {
-          color: var(--chronicle-black);
-          text-align: center;
-        }
-
-        .city-window {
-          overflow: hidden;
-        }
-
-        .city-track {
-          width: max-content;
-          display: flex;
-          gap: 26px;
-          animation: cityTicker 15s linear infinite;
-        }
-
-        .city-track span {
-          display: flex;
-          align-items: center;
-          gap: 5px;
-          white-space: nowrap;
-        }
-
-        .masthead-row {
-          min-height: 89px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 30px;
-        }
-
-        .chronicles-brand {
-          display: flex;
-          align-items: center;
-          gap: 15px;
-          color: var(--chronicle-black);
-        }
-
-        .chronicles-brand > strong {
-          padding-right: 15px;
-          border-right: 1px solid #bebebe;
-          font-family: Georgia, 'Times New Roman', serif;
-          font-size: 34px;
-          letter-spacing: 0.05em;
-        }
-
-        .chronicles-brand > span {
-          display: flex;
-          flex-direction: column;
-          color: var(--chronicle-blue);
-          font-size: 18px;
-          font-weight: 900;
-          letter-spacing: 0.08em;
-        }
-
-        .chronicles-brand small {
-          margin-top: 3px;
-          color: #777;
-          font-size: 8px;
-          letter-spacing: 0.07em;
-          text-transform: uppercase;
-        }
-
-        .chronicles-nav {
-          display: flex;
-          align-items: center;
-          gap: 25px;
-          font-size: 12px;
-          font-weight: 800;
-        }
-
-        .chronicles-nav a {
-          position: relative;
-        }
-
-        .chronicles-nav a:not(.nav-submit, .nav-account)::after {
-          width: 0;
-          height: 2px;
-          position: absolute;
-          bottom: -9px;
-          left: 0;
-          content: '';
-          background: var(--chronicle-blue);
-          transition: width 180ms ease;
-        }
-
-        .chronicles-nav a:hover::after {
-          width: 100%;
-        }
-
-        .nav-submit,
-        .nav-account {
-          padding: 10px 15px;
-          border: 1px solid var(--chronicle-black);
-        }
-
-        .nav-account {
-          background: var(--chronicle-black);
-          color: white;
-        }
-
-        .chronicles-menu {
-          display: none;
-          border: 0;
-          background: transparent;
-          cursor: pointer;
         }
 
         .chronicles-opening {
@@ -1387,15 +1152,6 @@ export default function HomePage() {
           font-weight: 850;
         }
 
-        @keyframes cityTicker {
-          from {
-            transform: translateX(0);
-          }
-
-          to {
-            transform: translateX(-50%);
-          }
-        }
 
         @keyframes openingReveal {
           from {
@@ -1434,34 +1190,10 @@ export default function HomePage() {
         }
 
         @media (max-width: 980px) {
-          .topbar-inner {
-            grid-template-columns: 1fr 1fr;
-          }
 
-          .topbar-tagline {
-            display: none;
-          }
 
-          .chronicles-nav {
-            display: none;
-            position: absolute;
-            top: 128px;
-            right: 0;
-            left: 0;
-            align-items: stretch;
-            padding: 25px;
-            border-bottom: 1px solid #ddd;
-            background: white;
-          }
 
-          .chronicles-nav.open {
-            display: flex;
-            flex-direction: column;
-          }
 
-          .chronicles-menu {
-            display: block;
-          }
 
           .search-panel,
           .featured-chronicle-layout,
@@ -1501,21 +1233,9 @@ export default function HomePage() {
             width: min(100% - 26px, 1280px);
           }
 
-          .topbar-date {
-            font-size: 9px;
-          }
 
-          .masthead-row {
-            min-height: 74px;
-          }
 
-          .chronicles-brand > strong {
-            font-size: 25px;
-          }
 
-          .chronicles-brand > span {
-            font-size: 13px;
-          }
 
           .chronicles-opening {
             min-height: 620px;
@@ -1614,7 +1334,6 @@ export default function HomePage() {
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .city-track,
           .opening-content,
           .opening-scroll span,
           .chronicle-loading > span::after {
