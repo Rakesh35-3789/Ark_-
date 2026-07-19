@@ -53,7 +53,7 @@ export const dynamic = 'force-dynamic';
             </p>
 
             <div className="hero-actions">
-              <Link href="/submit" className="primary-button">
+              <Link href="/submit?type=investor" className="primary-button">
                 Submit Investor Profile
               </Link>
 
@@ -113,7 +113,7 @@ export const dynamic = 'force-dynamic';
                 approved by the ARK admin.
               </p>
 
-              <Link href="/submit" className="primary-button">
+              <Link href="/submit?type=investor" className="primary-button">
                 Submit the first investor
               </Link>
             </div>
@@ -185,7 +185,7 @@ export const dynamic = 'force-dynamic';
             </p>
           </div>
 
-          <Link href="/submit" className="light-button">
+          <Link href="/submit?type=investor" className="light-button">
             Submit Investor
           </Link>
         </div>

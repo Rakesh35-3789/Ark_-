@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { FormEvent, useMemo, useRef, useState } from 'react';
+import { Suspense, FormEvent, useMemo, useRef, useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { BookOpen, BriefcaseBusiness, CheckCircle2, HandCoins, Rocket, UploadCloud, UserRound } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { createBrowserSupabase } from '@/lib/supabase-browser';
@@ -17,8 +18,23 @@ const kinds=[
 const clean=(v:FormDataEntryValue|null)=>String(v||'').trim()||null;
 const slugify=(v:string)=>v.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')+'-'+Date.now().toString(36);
 
-export default function SubmitPage(){
+function SubmitContent() {
   const [kind,setKind]=useState<Kind>('story');const[busy,setBusy]=useState(false);const[message,setMessage]=useState('');const[success,setSuccess]=useState(false);const formRef=useRef<HTMLFormElement>(null);const{user,loading}=useAuth();
+  const searchParams = useSearchParams();
+
+useEffect(() => {
+  const type = searchParams.get('type');
+
+  if (
+    type === 'story' ||
+    type === 'research' ||
+    type === 'founder' ||
+    type === 'investor' ||
+    type === 'opportunity'
+  ) {
+    setKind(type);
+  }
+}, [searchParams]);
   const title=useMemo(()=>({story:'Submit an innovation story',research:'Submit a research paper',founder:'Submit a founder profile',investor:'Submit an investor profile',opportunity:'Post an opportunity'})[kind],[kind]);
 
   async function upload(file:File|null,bucket:string){if(!file||!file.size)return null;if(!user)throw new Error('Sign in before uploading.');const limit=bucket==='research-files'?10:5;if(file.size>limit*1024*1024)throw new Error(`File must be under ${limit} MB.`);const sb=createBrowserSupabase();const safe=file.name.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9._-]/g,'');const path=`${user.id}/${crypto.randomUUID()}-${safe}`;const{error}=await sb.storage.from(bucket).upload(path,file,{upsert:false});if(error)throw error;return sb.storage.from(bucket).getPublicUrl(path).data.publicUrl;}
@@ -48,3 +64,10 @@ export default function SubmitPage(){
 function Field({label,name,type='text',required=false}:{label:string;name:string;type?:string;required?:boolean}){return <label>{label}<input name={name} type={type} required={required}/></label>}
 function Area({label,name,minLength,rows=6}:{label:string;name:string;minLength:number;rows?:number}){return <label>{label}<textarea name={name} minLength={minLength} rows={rows} required/></label>}
 function ProfileFields({companyLabel,companyName}:{companyLabel:string;companyName:'company'|'firm'}){return <><div className="two"><Field label="Full name" name="name" required/><Field label={companyLabel} name={companyName} required/></div><div className="two"><Field label="Role / Title" name="role_title"/><Field label="City" name="city"/></div><Area label="Biography" name="bio" minLength={80} rows={9}/><Field label="Website" name="website" type="url"/></>}
+export default function SubmitPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SubmitContent />
+    </Suspense>
+  );
+}
