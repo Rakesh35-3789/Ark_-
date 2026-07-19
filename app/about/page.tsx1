@@ -1,0 +1,727 @@
+import Link from 'next/link';
+
+const values = [
+  {
+    number: '01',
+    title: 'Truth',
+    description:
+      'We publish responsible stories and profiles that represent people, research and innovation accurately.',
+  },
+  {
+    number: '02',
+    title: 'Opportunity',
+    description:
+      'We help talented students, founders and researchers reach audiences beyond their existing networks.',
+  },
+  {
+    number: '03',
+    title: 'Innovation',
+    description:
+      'We celebrate useful ideas, meaningful research and products that can create real impact.',
+  },
+  {
+    number: '04',
+    title: 'Community',
+    description:
+      'We connect students, colleges, founders, researchers, investors and ecosystem supporters.',
+  },
+];
+
+const focusAreas = [
+  'Founder stories and startup journeys',
+  'Research papers and innovation reports',
+  'Student achievements and opportunities',
+  'Investor and ecosystem profiles',
+  'College and university collaborations',
+  'Technology, AI and editorial articles',
+];
+
+export default function AboutPage() {
+  return (
+    <main className="about-page">
+      <section className="about-hero">
+        <div className="about-shell hero-layout">
+          <div>
+            <div className="eyebrow">About ARK Chronicles</div>
+
+            <h1>
+              Stories that document
+              <span> innovation and impact.</span>
+            </h1>
+
+            <p>
+              ARK Chronicles is a publication and innovation platform built to
+              highlight founders, researchers, students, investors,
+              institutions and communities creating meaningful change.
+            </p>
+
+            <div className="hero-actions">
+              <Link href="/chronicles" className="primary-button">
+                Explore Chronicles
+              </Link>
+
+              <Link href="/submit" className="secondary-button">
+                Share Your Story
+              </Link>
+            </div>
+          </div>
+
+          <div className="hero-quote">
+            <span>Our belief</span>
+
+            <blockquote>
+              “Important work deserves to be discovered, documented and
+              remembered.”
+            </blockquote>
+
+            <p>
+              ARK Chronicles brings visibility to people and ideas that may
+              otherwise remain unseen.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="story-section">
+        <div className="about-shell story-grid">
+          <div className="story-heading">
+            <span className="section-label">Our story</span>
+
+            <h2>Why ARK Chronicles exists</h2>
+          </div>
+
+          <div className="story-copy">
+            <p>
+              Across colleges, research communities and startup ecosystems,
+              talented people are building products, writing research, solving
+              problems and creating opportunities.
+            </p>
+
+            <p>
+              Many of these stories never reach the right audience. ARK
+              Chronicles was created to change that by giving innovators a
+              credible, structured and lasting platform.
+            </p>
+
+            <p>
+              We combine publication, community and opportunity discovery so
+              that stories do more than receive attention—they help people
+              build connections and move forward.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="mission-section">
+        <div className="about-shell mission-grid">
+          <article className="mission-card primary-card">
+            <span>Our Mission</span>
+
+            <h2>
+              Make meaningful innovation visible, understandable and
+              accessible.
+            </h2>
+
+            <p>
+              We document people, research and projects that contribute to
+              education, technology, entrepreneurship and social progress.
+            </p>
+          </article>
+
+          <article className="mission-card">
+            <span>Our Vision</span>
+
+            <h2>
+              Build a trusted archive and network for the next generation of
+              builders.
+            </h2>
+
+            <p>
+              ARK aims to become a platform where students, founders,
+              researchers, investors and colleges discover one another.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className="focus-section">
+        <div className="about-shell focus-layout">
+          <div className="focus-intro">
+            <span className="section-label">What we publish</span>
+
+            <h2>A platform for builders, thinkers and institutions</h2>
+
+            <p>
+              ARK Chronicles covers the journeys, discoveries and opportunities
+              shaping the innovation ecosystem.
+            </p>
+          </div>
+
+          <div className="focus-list">
+            {focusAreas.map((area, index) => (
+              <div className="focus-item" key={area}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <p>{area}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="values-section">
+        <div className="about-shell">
+          <div className="section-heading">
+            <div>
+              <span className="section-label">Our values</span>
+              <h2>Principles behind ARK</h2>
+            </div>
+
+            <p>
+              These values guide what we publish, how we collaborate and how we
+              build trust with our community.
+            </p>
+          </div>
+
+          <div className="values-grid">
+            {values.map((value) => (
+              <article key={value.number} className="value-card">
+                <span>{value.number}</span>
+                <h3>{value.title}</h3>
+                <p>{value.description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="community-section">
+        <div className="about-shell">
+          <div className="community-heading">
+            <span className="section-label">The ARK community</span>
+
+            <h2>One platform. Many contributors.</h2>
+          </div>
+
+          <div className="community-grid">
+            <article>
+              <strong>Students</strong>
+              <p>
+                Sharing achievements, projects, ideas and learning journeys.
+              </p>
+            </article>
+
+            <article>
+              <strong>Founders</strong>
+              <p>
+                Documenting startup journeys, products, challenges and impact.
+              </p>
+            </article>
+
+            <article>
+              <strong>Researchers</strong>
+              <p>
+                Publishing research, findings and technical contributions.
+              </p>
+            </article>
+
+            <article>
+              <strong>Investors</strong>
+              <p>
+                Supporting innovators, companies and research-driven ventures.
+              </p>
+            </article>
+
+            <article>
+              <strong>Colleges</strong>
+              <p>
+                Showcasing campus innovation, research and student success.
+              </p>
+            </article>
+
+            <article>
+              <strong>Readers</strong>
+              <p>
+                Discovering valuable stories, ideas and opportunities.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section className="about-cta">
+        <div className="about-shell cta-box">
+          <div>
+            <span className="section-label">Become part of ARK</span>
+
+            <h2>Your work could inspire the next builder.</h2>
+
+            <p>
+              Share a story, submit research, introduce a founder, publish an
+              investor profile or collaborate with ARK as an institution.
+            </p>
+          </div>
+
+          <div className="cta-actions">
+            <Link href="/submit" className="light-button">
+              Submit to ARK
+            </Link>
+
+            <Link
+              href="/college-collaborations"
+              className="outline-light-button"
+            >
+              College Collaborations
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <style>{`
+        .about-page {
+          min-height: 100vh;
+          background: #f5f2e9;
+          color: #142019;
+        }
+
+        .about-shell {
+          width: min(1180px, calc(100% - 40px));
+          margin: 0 auto;
+        }
+
+        .about-hero {
+          padding: 92px 0 82px;
+          background:
+            radial-gradient(
+              circle at 86% 15%,
+              rgba(49, 74, 144, 0.19),
+              transparent 31%
+            ),
+            radial-gradient(
+              circle at 10% 90%,
+              rgba(25, 108, 73, 0.12),
+              transparent 28%
+            ),
+            linear-gradient(135deg, #faf8f1, #edf2ec);
+          border-bottom: 1px solid rgba(20, 40, 30, 0.12);
+        }
+
+        .hero-layout {
+          display: grid;
+          grid-template-columns: minmax(0, 1.3fr) minmax(330px, 0.7fr);
+          align-items: center;
+          gap: 75px;
+        }
+
+        .eyebrow,
+        .section-label {
+          color: #1f316f;
+          font-size: 11px;
+          font-weight: 900;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+        }
+
+        .about-hero h1 {
+          max-width: 790px;
+          margin: 15px 0 22px;
+          font-family: Georgia, "Times New Roman", serif;
+          font-size: clamp(52px, 7vw, 91px);
+          line-height: 0.96;
+          letter-spacing: -0.055em;
+        }
+
+        .about-hero h1 span {
+          color: #1f316f;
+        }
+
+        .about-hero p {
+          max-width: 690px;
+          margin: 0;
+          color: #68736c;
+          font-size: 17px;
+          line-height: 1.75;
+        }
+
+        .hero-actions,
+        .cta-actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+          margin-top: 31px;
+        }
+
+        .primary-button,
+        .secondary-button,
+        .light-button,
+        .outline-light-button {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 48px;
+          padding: 0 20px;
+          border-radius: 10px;
+          font-size: 12px;
+          font-weight: 900;
+          text-decoration: none;
+          transition: transform 0.2s ease;
+        }
+
+        .primary-button {
+          border: 1px solid #1f316f;
+          background: #1f316f;
+          color: white;
+        }
+
+        .secondary-button {
+          border: 1px solid #c5cdc7;
+          background: rgba(255, 255, 255, 0.72);
+          color: #17231c;
+        }
+
+        .primary-button:hover,
+        .secondary-button:hover,
+        .light-button:hover,
+        .outline-light-button:hover {
+          transform: translateY(-2px);
+        }
+
+        .hero-quote {
+          padding: 32px;
+          border: 1px solid rgba(20, 40, 30, 0.11);
+          border-radius: 22px;
+          background: rgba(255, 255, 255, 0.82);
+          box-shadow: 0 30px 70px rgba(31, 49, 111, 0.12);
+        }
+
+        .hero-quote > span {
+          color: #1f316f;
+          font-size: 10px;
+          font-weight: 900;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+        }
+
+        .hero-quote blockquote {
+          margin: 22px 0;
+          font-family: Georgia, "Times New Roman", serif;
+          font-size: 30px;
+          line-height: 1.25;
+        }
+
+        .hero-quote p {
+          font-size: 13px;
+          line-height: 1.65;
+        }
+
+        .story-section {
+          padding: 90px 0;
+        }
+
+        .story-grid {
+          display: grid;
+          grid-template-columns: 0.8fr 1.2fr;
+          gap: 90px;
+        }
+
+        .story-heading h2,
+        .mission-card h2,
+        .focus-intro h2,
+        .section-heading h2,
+        .community-heading h2,
+        .about-cta h2 {
+          margin: 10px 0 0;
+          font-family: Georgia, "Times New Roman", serif;
+          font-size: clamp(38px, 5vw, 59px);
+          line-height: 1.04;
+          letter-spacing: -0.045em;
+        }
+
+        .story-copy p {
+          margin: 0 0 21px;
+          color: #657169;
+          font-size: 16px;
+          line-height: 1.82;
+        }
+
+        .mission-section {
+          padding: 0 0 95px;
+        }
+
+        .mission-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 20px;
+        }
+
+        .mission-card {
+          min-height: 410px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 37px;
+          border: 1px solid rgba(20, 40, 30, 0.1);
+          border-radius: 22px;
+          background: #fffefa;
+        }
+
+        .mission-card > span {
+          color: #1f316f;
+          font-size: 10px;
+          font-weight: 900;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+        }
+
+        .mission-card p {
+          margin: 35px 0 0;
+          color: #657169;
+          line-height: 1.75;
+        }
+
+        .primary-card {
+          background: #1f316f;
+          color: white;
+        }
+
+        .primary-card > span {
+          color: rgba(255, 255, 255, 0.7);
+        }
+
+        .primary-card p {
+          color: rgba(255, 255, 255, 0.72);
+        }
+
+        .focus-section {
+          padding: 90px 0;
+          background: #edf1eb;
+        }
+
+        .focus-layout {
+          display: grid;
+          grid-template-columns: 0.9fr 1.1fr;
+          gap: 85px;
+        }
+
+        .focus-intro p {
+          max-width: 500px;
+          margin: 22px 0 0;
+          color: #657169;
+          line-height: 1.75;
+        }
+
+        .focus-list {
+          border-top: 1px solid #cbd4cd;
+        }
+
+        .focus-item {
+          display: grid;
+          grid-template-columns: 50px 1fr;
+          gap: 20px;
+          padding: 20px 0;
+          border-bottom: 1px solid #cbd4cd;
+        }
+
+        .focus-item span {
+          color: #1f316f;
+          font-size: 10px;
+          font-weight: 900;
+        }
+
+        .focus-item p {
+          margin: 0;
+          font-size: 15px;
+          font-weight: 750;
+        }
+
+        .values-section {
+          padding: 90px 0;
+        }
+
+        .section-heading {
+          display: flex;
+          align-items: end;
+          justify-content: space-between;
+          gap: 50px;
+          margin-bottom: 38px;
+        }
+
+        .section-heading > p {
+          max-width: 500px;
+          margin: 0;
+          color: #68736c;
+          line-height: 1.7;
+        }
+
+        .values-grid {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 17px;
+        }
+
+        .value-card {
+          min-height: 310px;
+          padding: 25px;
+          border: 1px solid rgba(20, 40, 30, 0.1);
+          border-radius: 18px;
+          background: #fffefa;
+        }
+
+        .value-card > span {
+          color: #1f316f;
+          font-family: Georgia, "Times New Roman", serif;
+          font-size: 30px;
+        }
+
+        .value-card h3 {
+          margin: 49px 0 14px;
+          font-family: Georgia, "Times New Roman", serif;
+          font-size: 25px;
+        }
+
+        .value-card p {
+          margin: 0;
+          color: #68736c;
+          font-size: 14px;
+          line-height: 1.72;
+        }
+
+        .community-section {
+          padding: 90px 0 95px;
+          background: #18251e;
+          color: white;
+        }
+
+        .community-heading {
+          margin-bottom: 37px;
+        }
+
+        .community-section .section-label {
+          color: #aab7f1;
+        }
+
+        .community-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 17px;
+        }
+
+        .community-grid article {
+          padding: 26px;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-radius: 17px;
+          background: rgba(255, 255, 255, 0.05);
+        }
+
+        .community-grid strong {
+          font-family: Georgia, "Times New Roman", serif;
+          font-size: 25px;
+        }
+
+        .community-grid p {
+          margin: 13px 0 0;
+          color: rgba(255, 255, 255, 0.67);
+          line-height: 1.7;
+        }
+
+        .about-cta {
+          padding: 90px 0;
+        }
+
+        .cta-box {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 45px;
+          padding: 50px;
+          border-radius: 24px;
+          background: #1f316f;
+          color: white;
+        }
+
+        .cta-box .section-label {
+          color: rgba(255, 255, 255, 0.67);
+        }
+
+        .cta-box p {
+          max-width: 640px;
+          margin: 17px 0 0;
+          color: rgba(255, 255, 255, 0.74);
+          line-height: 1.7;
+        }
+
+        .light-button {
+          background: white;
+          border: 1px solid white;
+          color: #1f316f;
+        }
+
+        .outline-light-button {
+          border: 1px solid rgba(255, 255, 255, 0.45);
+          color: white;
+        }
+
+        @media (max-width: 1000px) {
+          .hero-layout,
+          .story-grid,
+          .focus-layout {
+            grid-template-columns: 1fr;
+            gap: 45px;
+          }
+
+          .values-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+
+        @media (max-width: 730px) {
+          .mission-grid,
+          .community-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .section-heading,
+          .cta-box {
+            align-items: flex-start;
+            flex-direction: column;
+          }
+        }
+
+        @media (max-width: 540px) {
+          .about-shell {
+            width: min(100% - 24px, 1180px);
+          }
+
+          .about-hero {
+            padding: 68px 0 55px;
+          }
+
+          .hero-actions,
+          .cta-actions {
+            flex-direction: column;
+          }
+
+          .primary-button,
+          .secondary-button,
+          .light-button,
+          .outline-light-button {
+            width: 100%;
+          }
+
+          .values-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .hero-quote,
+          .mission-card,
+          .value-card {
+            padding: 22px;
+          }
+
+          .cta-box {
+            padding: 31px 24px;
+          }
+        }
+      `}</style>
+    </main>
+  );
+}
