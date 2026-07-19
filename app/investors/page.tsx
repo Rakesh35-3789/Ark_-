@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { supabase } from '@/lib/supabaseClient';
+import { createBrowserSupabase } from '@/lib/supabase-browser';
 
 type Investor = {
   id: string;
@@ -15,7 +15,10 @@ type Investor = {
 
 export const dynamic = 'force-dynamic';
 
-export default async function InvestorsPage() {
+
+ export default async function InvestorsPage() {
+  const supabase = createBrowserSupabase();
+
   const { data, error } = await supabase
     .from('investors')
     .select(
@@ -23,6 +26,11 @@ export default async function InvestorsPage() {
     )
     .eq('status', 'approved')
     .order('created_at', { ascending: false });
+
+  if (error) {
+    throw error;
+  }
+
 
   const investors = (data || []) as Investor[];
 
@@ -90,13 +98,12 @@ export default async function InvestorsPage() {
               real products, companies and research outcomes.
             </p>
           </div>
-
-          {error ? (
-            <div className="empty-state error-state">
-              <div className="empty-icon">!</div>
-              <h3>Unable to load investors</h3>
-              <p>{error.message}</p>
-            </div>
+{error ? (
+  <div className="empty-state error-state">
+    <div className="empty-icon">!</div>
+    <h3>Unable to load investors</h3>
+    <p>Could not load investors. Please try again later.</p>
+  </div>
           ) : investors.length === 0 ? (
             <div className="empty-state">
               <div className="empty-icon">I</div>
