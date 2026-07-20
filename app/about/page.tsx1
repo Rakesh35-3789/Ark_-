@@ -56,11 +56,11 @@ export default function AboutPage() {
             </p>
 
             <div className="hero-actions">
-              <Link href="/chronicles" className="primary-button">
+              <Link href="/explore" className="primary-button">
                 Explore Chronicles
               </Link>
 
-              <Link href="/submit" className="secondary-button">
+              <Link href="/submit?type=story" className="secondary-button">
                 Share Your Story
               </Link>
             </div>
