@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Suspense, FormEvent, useMemo, useRef, useState, useEffect } from 'react';
+import { Suspense, FormEvent, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { BookOpen, BriefcaseBusiness, CheckCircle2, HandCoins, Rocket, UploadCloud, UserRound } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
@@ -19,22 +19,17 @@ const clean=(v:FormDataEntryValue|null)=>String(v||'').trim()||null;
 const slugify=(v:string)=>v.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')+'-'+Date.now().toString(36);
 
 function SubmitContent() {
-  const [kind,setKind]=useState<Kind>('story');const[busy,setBusy]=useState(false);const[message,setMessage]=useState('');const[success,setSuccess]=useState(false);const formRef=useRef<HTMLFormElement>(null);const{user,loading}=useAuth();
   const searchParams = useSearchParams();
+  const requestedType = searchParams.get('type');
+  const initialKind: Kind =
+    requestedType === 'research' ||
+    requestedType === 'founder' ||
+    requestedType === 'investor' ||
+    requestedType === 'opportunity'
+      ? requestedType
+      : 'story';
 
-useEffect(() => {
-  const type = searchParams.get('type');
-
-  if (
-    type === 'story' ||
-    type === 'research' ||
-    type === 'founder' ||
-    type === 'investor' ||
-    type === 'opportunity'
-  ) {
-    setKind(type);
-  }
-}, [searchParams]);
+  const [kind,setKind]=useState<Kind>(initialKind);const[busy,setBusy]=useState(false);const[message,setMessage]=useState('');const[success,setSuccess]=useState(false);const formRef=useRef<HTMLFormElement>(null);const{user,loading}=useAuth();
   const title=useMemo(()=>({story:'Submit an innovation story',research:'Submit a research paper',founder:'Submit a founder profile',investor:'Submit an investor profile',opportunity:'Post an opportunity'})[kind],[kind]);
 
   async function upload(file:File|null,bucket:string){if(!file||!file.size)return null;if(!user)throw new Error('Sign in before uploading.');const limit=bucket==='research-files'?10:5;if(file.size>limit*1024*1024)throw new Error(`File must be under ${limit} MB.`);const sb=createBrowserSupabase();const safe=file.name.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9._-]/g,'');const path=`${user.id}/${crypto.randomUUID()}-${safe}`;const{error}=await sb.storage.from(bucket).upload(path,file,{upsert:false});if(error)throw error;return sb.storage.from(bucket).getPublicUrl(path).data.publicUrl;}
