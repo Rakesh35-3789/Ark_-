@@ -3,22 +3,12 @@
 
 import { useEffect, useState } from 'react';
 
-const STORAGE_KEY = 'ark-editorial-opening-v2';
-
 export function ArkLoader() {
   const [visible, setVisible] = useState(true);
   const [leaving, setLeaving] = useState(false);
 
   useEffect(() => {
-    const alreadySeen =
-      window.sessionStorage.getItem(STORAGE_KEY) === 'true';
-
-    if (alreadySeen) {
-      setVisible(false);
-      return;
-    }
-
-    const previousOverflow = document.body.style.overflow;
+const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
     const exitTimer = window.setTimeout(() => {
@@ -26,7 +16,6 @@ export function ArkLoader() {
     }, 3200);
 
     const removeTimer = window.setTimeout(() => {
-      window.sessionStorage.setItem(STORAGE_KEY, 'true');
       document.body.style.overflow = previousOverflow;
       setVisible(false);
     }, 4250);

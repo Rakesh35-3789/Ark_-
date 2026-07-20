@@ -97,39 +97,43 @@ export function Header() {
               <small>Architects of Rising Knowledge</small>
             </span>
           </Link>
+<nav className="ark-desktop-navigation" aria-label="Main navigation">
+            <Link href="/" className={isActive('/') ? 'active' : ''}>
+              Home
+            </Link>
 
-          <nav className="ark-desktop-navigation" aria-label="Main navigation">
-  <Link href="/explore" className={isActive('/explore') ? 'active' : ''}>
-    Chronicles
-  </Link>
+            <Link href="/explore" className={isActive('/explore') ? 'active' : ''}>
+              Chronicles
+            </Link>
 
-  <Link href="/founders" className={isActive('/founders') ? 'active' : ''}>
-    Founders
-  </Link>
+            <Link href="/founders" className={isActive('/founders') ? 'active' : ''}>
+              Founders
+            </Link>
 
-  <Link href="/research" className={isActive('/research') ? 'active' : ''}>
-    Research
-  </Link>
+            <Link href="/research" className={isActive('/research') ? 'active' : ''}>
+              Research
+            </Link>
 
-  <Link href="/investors" className={isActive('/investors') ? 'active' : ''}>
-    Investors
-  </Link>
+            <Link
+              href="/opportunities"
+              className={isActive('/opportunities') ? 'active' : ''}
+            >
+              Opportunities
+            </Link>
 
-  <Link href="/colleges" className={isActive('/colleges') ? 'active' : ''}>
-    College Collabs
-  </Link>
+            <Link href="/about" className={isActive('/about') ? 'active' : ''}>
+              About
+            </Link>
 
-  <Link href="/about" className={isActive('/about') ? 'active' : ''}>
-    About
-  </Link>
-
-  <Link
-    href="/opportunities"
-    className={isActive('/opportunities') ? 'active' : ''}
-  >
-    Opportunities
-  </Link>
-</nav>
+            <Link
+              href="/submit?type=story"
+              className={`ark-submit-link ${
+                isActive('/submit') ? 'active' : ''
+              }`}
+            >
+              Submit Story
+            </Link>
+          </nav>
 
           <div className="ark-header-actions">
             {!loading &&
@@ -379,6 +383,26 @@ export function Header() {
           color: #242424;
           font-size: 12px;
           font-weight: 800;
+        }
+
+        .ark-desktop-navigation .ark-submit-link {
+          padding: 11px 16px;
+          border: 1px solid #283f91;
+          border-radius: 8px;
+          background: #283f91;
+          color: white;
+          transition: background 180ms ease, transform 180ms ease;
+        }
+
+        .ark-desktop-navigation .ark-submit-link::after {
+          display: none;
+        }
+
+        .ark-desktop-navigation .ark-submit-link:hover,
+        .ark-desktop-navigation .ark-submit-link.active {
+          background: #17295f;
+          color: white;
+          transform: translateY(-2px);
         }
 
         .ark-desktop-navigation a::after {
@@ -719,14 +743,7 @@ export function Header() {
             transform: translateX(0);
           }
         }
-
-        @media (min-width: 851px) {
-          .ark-menu-button {
-            display: none;
-          }
-        }
-
-        @media (max-width: 1080px) {
+@media (max-width: 1080px) {
           .ark-desktop-navigation {
             gap: 16px;
           }
