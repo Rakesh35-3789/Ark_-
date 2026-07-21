@@ -17,7 +17,36 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning>
+      <body className="ark-loading" suppressHydrationWarning>
+        <style>{`
+          html,
+          body {
+            margin: 0;
+            background: #f2efe6;
+          }
+
+          body.ark-loading {
+            overflow: hidden;
+          }
+
+          body.ark-loading
+            > *:not(.ark-opening-loader):not(style):not(script) {
+            visibility: hidden;
+          }
+
+          .ark-opening-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 999999;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            background: #f2efe6;
+            color: #101010;
+            isolation: isolate;
+          }
+        `}</style>
+
         <ArkLoader />
 
         <AuthProvider>

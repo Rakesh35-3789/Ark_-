@@ -110,6 +110,13 @@ export function Header() {
               Founders
             </Link>
 
+            <Link
+              href="/magazines"
+              className={isActive('/magazines') ? 'active' : ''}
+            >
+              Magazines
+            </Link>
+
             <Link href="/research" className={isActive('/research') ? 'active' : ''}>
               Research
             </Link>
@@ -753,6 +760,16 @@ export function Header() {
           }
         }
 
+        @media (max-width: 1180px) {
+          .ark-desktop-navigation {
+            display: none;
+          }
+
+          .ark-user-copy {
+            display: none;
+          }
+        }
+
         @media (max-width: 850px) {
           .ark-desktop-navigation,
           .ark-admin-link,
@@ -765,6 +782,28 @@ export function Header() {
         @media (max-width: 480px) {
           .ark-header-inner {
             min-height: 70px;
+            gap: 10px;
+          }
+
+          .ark-header-brand {
+            gap: 9px;
+          }
+
+          .ark-header-monogram {
+            padding-right: 10px;
+          }
+
+          .ark-header-brand-copy strong {
+            font-size: 13px;
+          }
+
+          .ark-header-actions {
+            gap: 7px;
+          }
+
+          .ark-menu-button {
+            width: 40px;
+            height: 40px;
           }
 
           .ark-header-brand-copy small {

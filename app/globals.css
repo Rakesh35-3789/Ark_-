@@ -6,3 +6,285 @@
 @media(max-width:1000px){.admin-stat-grid{grid-template-columns:repeat(3,1fr)}.about-values-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:850px){.header-inner{position:relative}.nav{max-height:calc(100vh - 74px);overflow:auto;align-items:stretch;gap:0}.nav a,.nav .link-button{width:100%;padding:13px 8px;text-align:left;border-bottom:1px solid var(--line)}.nav .button.small{text-align:center;margin-top:10px}.empty-feature-grid{grid-template-columns:1fr}.admin-toolbar{align-items:stretch;flex-direction:column}.admin-toolbar input{width:100%}.admin-stat-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:570px){.empty-section-hero{padding:42px 22px}.about-values-grid,.admin-stat-grid{grid-template-columns:1fr}.ark-auth-card{padding:24px 20px}.admin-submission-card{align-items:stretch}.admin-section-title select{width:100%}}
+
+
+/* ARK responsive magazines page */
+.magazines-page{
+  min-height:100vh;
+  overflow:hidden;
+  background:#f7f5ef;
+  color:#111;
+}
+.magazines-hero{
+  padding:105px 0 95px;
+  border-bottom:1px solid #d6d6d0;
+  background:
+    radial-gradient(circle at 82% 20%,rgba(40,63,145,.14),transparent 28%),
+    #fff;
+}
+.magazines-hero-grid{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  align-items:center;
+  gap:80px;
+}
+.magazines-eyebrow,
+.magazines-heading>span,
+.magazines-empty>div>span,
+.magazines-cta span{
+  color:#283f91;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.magazines-copy h1{
+  max-width:720px;
+  margin:17px 0 24px;
+  font:500 clamp(49px,6.6vw,82px)/.98 Georgia,"Times New Roman",serif;
+  letter-spacing:-.055em;
+}
+.magazines-copy>p{
+  max-width:680px;
+  margin:0;
+  color:#666;
+  font:18px/1.75 Georgia,"Times New Roman",serif;
+}
+.magazines-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-top:34px;
+}
+.magazines-primary,
+.magazines-secondary,
+.magazines-empty>a,
+.magazines-cta a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  min-height:48px;
+  padding:0 19px;
+  font-size:12px;
+  font-weight:850;
+}
+.magazines-primary,
+.magazines-cta a{
+  background:#283f91;
+  color:#fff;
+}
+.magazines-secondary{
+  border:1px solid #111;
+  background:#fff;
+  color:#111;
+}
+.magazines-cover{
+  min-height:520px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  padding:42px;
+  border:1px solid #d0d0ca;
+  background:
+    linear-gradient(rgba(255,255,255,.93),rgba(255,255,255,.93)),
+    repeating-linear-gradient(0deg,#111 0 1px,transparent 1px 7px);
+  text-align:center;
+  box-shadow:24px 28px 0 rgba(40,63,145,.1);
+}
+.magazines-cover>span{
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:.24em;
+}
+.magazines-cover strong{
+  margin-top:55px;
+  font-size:clamp(82px,11vw,145px);
+  font-weight:950;
+  line-height:.8;
+  letter-spacing:-.09em;
+}
+.magazines-cover h2{
+  margin:28px 0 0;
+  color:#283f91;
+  font:500 clamp(25px,3vw,42px)/1 Georgia,"Times New Roman",serif;
+  letter-spacing:.2em;
+}
+.magazines-cover div{
+  width:72%;
+  height:1px;
+  margin:35px 0 22px;
+  background:#111;
+}
+.magazines-cover p{
+  margin:0;
+  font:15px Georgia,"Times New Roman",serif;
+}
+.magazines-cover small{
+  margin-top:auto;
+  color:#666;
+  font-size:8px;
+  font-weight:850;
+  letter-spacing:.18em;
+}
+.magazines-section{
+  padding:100px 0;
+}
+.magazines-heading{
+  max-width:760px;
+  margin-bottom:45px;
+}
+.magazines-heading h2{
+  margin:12px 0 15px;
+  font:500 clamp(38px,5vw,62px)/1.04 Georgia,"Times New Roman",serif;
+  letter-spacing:-.045em;
+}
+.magazines-heading p{
+  max-width:680px;
+  color:#707070;
+  font-size:15px;
+  line-height:1.75;
+}
+.magazines-empty{
+  min-height:300px;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:28px;
+  padding:42px;
+  border-top:1px solid #111;
+  border-bottom:1px solid #111;
+  background:#fff;
+}
+.magazines-empty>svg{
+  color:#283f91;
+}
+.magazines-empty h3{
+  margin:9px 0;
+  font:500 clamp(29px,3vw,42px)/1.08 Georgia,"Times New Roman",serif;
+}
+.magazines-empty p{
+  max-width:620px;
+  margin:0;
+  color:#707070;
+  line-height:1.7;
+}
+.magazines-empty>a{
+  border-bottom:1px solid #111;
+  padding-right:0;
+  padding-left:0;
+}
+.magazines-feature-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  margin-top:48px;
+  border-top:1px solid #111;
+  border-bottom:1px solid #111;
+}
+.magazines-feature-grid article{
+  min-height:280px;
+  padding:30px;
+  border-right:1px solid #d1d1ca;
+  background:#fff;
+}
+.magazines-feature-grid article:last-child{
+  border-right:0;
+}
+.magazines-feature-grid svg{
+  color:#283f91;
+}
+.magazines-feature-grid h3{
+  margin:48px 0 12px;
+  font:500 29px Georgia,"Times New Roman",serif;
+}
+.magazines-feature-grid p{
+  color:#707070;
+  font-size:14px;
+  line-height:1.7;
+}
+.magazines-cta{
+  padding:100px 0;
+  background:#101010;
+  color:#fff;
+  text-align:center;
+}
+.magazines-cta svg{
+  margin-bottom:19px;
+  color:#8ea1eb;
+}
+.magazines-cta h2{
+  max-width:780px;
+  margin:15px auto 30px;
+  font:500 clamp(38px,5vw,61px)/1.04 Georgia,"Times New Roman",serif;
+  letter-spacing:-.045em;
+}
+.magazines-cta a{
+  margin-inline:auto;
+  background:#fff;
+  color:#111;
+}
+@media(max-width:900px){
+  .magazines-hero-grid{
+    grid-template-columns:1fr;
+    gap:55px;
+  }
+  .magazines-cover{
+    min-height:430px;
+  }
+  .magazines-empty{
+    grid-template-columns:auto 1fr;
+  }
+  .magazines-empty>a{
+    grid-column:2;
+    justify-self:start;
+  }
+}
+@media(max-width:650px){
+  .magazines-hero{
+    padding:72px 0 65px;
+  }
+  .magazines-actions{
+    flex-direction:column;
+  }
+  .magazines-primary,
+  .magazines-secondary{
+    width:100%;
+  }
+  .magazines-cover{
+    min-height:390px;
+    padding:28px 20px;
+    box-shadow:12px 14px 0 rgba(40,63,145,.1);
+  }
+  .magazines-cover strong{
+    margin-top:42px;
+    font-size:84px;
+  }
+  .magazines-cover h2{
+    font-size:24px;
+    letter-spacing:.13em;
+  }
+  .magazines-section,
+  .magazines-cta{
+    padding:72px 0;
+  }
+  .magazines-empty{
+    grid-template-columns:1fr;
+    align-items:start;
+    padding:30px 22px;
+  }
+  .magazines-empty>a{
+    grid-column:auto;
+  }
+  .magazines-feature-grid{
+    grid-template-columns:1fr;
+  }
+  .magazines-feature-grid article{
+    min-height:230px;
+    border-right:0;
+    border-bottom:1px solid #d1d1ca;
+  }
+  .magazines-feature-grid article:last-child{
+    border-bottom:0;
+  }
+}
