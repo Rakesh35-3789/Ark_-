@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -7,9 +8,7 @@ export function ArkLoader() {
   const [leaving, setLeaving] = useState(false);
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-
-    document.body.classList.add('ark-loading');
+const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
     const exitTimer = window.setTimeout(() => {
@@ -18,7 +17,6 @@ export function ArkLoader() {
 
     const removeTimer = window.setTimeout(() => {
       document.body.style.overflow = previousOverflow;
-      document.body.classList.remove('ark-loading');
       setVisible(false);
     }, 4250);
 
@@ -26,7 +24,6 @@ export function ArkLoader() {
       window.clearTimeout(exitTimer);
       window.clearTimeout(removeTimer);
       document.body.style.overflow = previousOverflow;
-      document.body.classList.remove('ark-loading');
     };
   }, []);
 
