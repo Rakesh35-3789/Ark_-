@@ -329,7 +329,7 @@ export function Header() {
           top: 0;
           z-index: 500;
           border-bottom: 1px solid rgba(8, 8, 8, 0.12);
-          background: rgba(255, 255, 255, 0.94);
+          background: rgba(244, 240, 230, 0.96);
           backdrop-filter: blur(18px);
         }
 
@@ -467,7 +467,7 @@ export function Header() {
           gap: 9px;
           padding: 6px 10px 6px 6px;
           border: 1px solid #d6d6d6;
-          background: #fafafa;
+          background: #fbf8f2;
         }
 
         .ark-user-avatar,
@@ -512,7 +512,7 @@ export function Header() {
           display: grid;
           place-items: center;
           border: 1px solid #d1d1d1;
-          background: white;
+          background: #fbf8f2;
           cursor: pointer;
           transition: 180ms ease;
         }

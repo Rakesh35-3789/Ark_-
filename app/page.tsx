@@ -509,7 +509,7 @@ export default function HomePage() {
           --chronicle-black: #070707;
           --chronicle-grey: #686868;
           --chronicle-line: #d8d8d8;
-          --chronicle-paper: #ffffff;
+          --chronicle-paper: #f4f0e6;
           overflow: hidden;
           background: var(--chronicle-paper);
           color: var(--chronicle-black);
@@ -531,7 +531,7 @@ export default function HomePage() {
           place-items: center;
           overflow: hidden;
           border-bottom: 1px solid var(--chronicle-line);
-          background: white;
+          background:#f4f0e6;
         }
 
         .opening-grid-lines {
