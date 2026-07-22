@@ -204,7 +204,7 @@ export default function HomePage() {
 
           <div className="opening-actions">
             <Link href="/explore" className="chronicle-primary-button">
-              Read the Chronicles
+              Read Magazine
               <ArrowRight size={17} />
             </Link>
 
