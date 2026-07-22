@@ -4,8 +4,10 @@
 import Link from 'next/link';
 import {
   FormEvent,
+  useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 
@@ -26,7 +28,7 @@ type Submission = {
   summary: string;
   label: string;
   created_at: string;
-  submitted_by?: string | null;
+  submitted_by: string | null;
 };
 
 type UserProfile = {
@@ -97,10 +99,15 @@ export default function AdminPage() {
     useState<string | null>(null);
 
   const [message, setMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [busy, setBusy] = useState(false);
+const [errorMessage, setErrorMessage] = useState('');
+const [busy, setBusy] = useState(false);
+const [initialLoading, setInitialLoading] = useState(true);
+const [refreshing, setRefreshing] = useState(false);
 
-  const token = session?.access_token;
+const loadingDataRef = useRef(false);
+const loadedTokenRef = useRef<string | null>(null);
+
+const token = session?.access_token ?? null;
 
   const statistics = useMemo(() => {
     const pendingInvestors = investors.filter(
@@ -179,43 +186,162 @@ export default function AdminPage() {
     setMessage('');
     setErrorMessage('');
   }
+  function normaliseSubmission(value: unknown): Submission | null {
+  if (!value || typeof value !== 'object') {
+    return null;
+  }
 
-  async function loadAllData() {
+  const item = value as Record<string, unknown>;
+
+  const type = String(item.type ?? '');
+
+  if (
+    type !== 'story' &&
+    type !== 'research' &&
+    type !== 'founder' &&
+    type !== 'opportunity'
+  ) {
+    return null;
+  }
+
+  const id = String(item.id ?? '');
+
+  if (!id) {
+    return null;
+  }
+
+  return {
+    type,
+    id,
+    title: String(item.title ?? 'Untitled submission'),
+    summary: String(
+      item.summary ??
+        item.excerpt ??
+        item.abstract ??
+        item.description ??
+        '',
+    ),
+    label: String(
+      item.label ??
+        item.category ??
+        item.field ??
+        item.organization ??
+        type,
+    ),
+    created_at: String(
+      item.created_at ??
+        item.createdAt ??
+        new Date().toISOString(),
+    ),
+    submitted_by:
+      typeof item.submitted_by === 'string'
+        ? item.submitted_by
+        : typeof item.ownerName === 'string'
+          ? item.ownerName
+          : null,
+  };
+}
+
+  const loadAllData = useCallback(
+  async (showRefreshState = false) => {
     if (!token || profile?.role !== 'admin') {
+      setInitialLoading(false);
       return;
     }
 
-    setBusy(true);
+    if (loadingDataRef.current) {
+      return;
+    }
+
+    loadingDataRef.current = true;
+
+    if (showRefreshState) {
+      setRefreshing(true);
+    }
+
     clearMessages();
 
     try {
-      const [
-        moderationResponse,
-        usersResponse,
-        investorsResponse,
-      ] = await Promise.all([
+      const results = await Promise.allSettled([
         apiRequest('/api/admin/moderation'),
         apiRequest('/api/admin/users'),
         apiRequest('/api/admin/investors'),
       ]);
 
-      setSubmissions(
-        Array.isArray(moderationResponse.items)
-          ? (moderationResponse.items as Submission[])
-          : [],
-      );
+      const [
+        moderationResult,
+        usersResult,
+        investorsResult,
+      ] = results;
 
-      setUsers(
-        Array.isArray(usersResponse.users)
-          ? (usersResponse.users as UserProfile[])
-          : [],
-      );
+      const errors: string[] = [];
 
-      setInvestors(
-        Array.isArray(investorsResponse.investors)
-          ? (investorsResponse.investors as Investor[])
-          : [],
-      );
+      if (moderationResult.status === 'fulfilled') {
+        const response = moderationResult.value;
+
+        const rawItems = Array.isArray(response.items)
+          ? response.items
+          : Array.isArray(response.submissions)
+            ? response.submissions
+            : [];
+
+        const normalisedSubmissions = rawItems
+          .map(normaliseSubmission)
+          .filter(
+            (item): item is Submission =>
+              item !== null,
+          );
+
+        setSubmissions(normalisedSubmissions);
+      } else {
+        setSubmissions([]);
+
+        errors.push(
+          moderationResult.reason instanceof Error
+            ? `Submissions: ${moderationResult.reason.message}`
+            : 'Submissions could not be loaded.',
+        );
+      }
+
+      if (usersResult.status === 'fulfilled') {
+        const response = usersResult.value;
+
+        setUsers(
+          Array.isArray(response.users)
+            ? (response.users as UserProfile[])
+            : [],
+        );
+      } else {
+        setUsers([]);
+
+        errors.push(
+          usersResult.reason instanceof Error
+            ? `Users: ${usersResult.reason.message}`
+            : 'Users could not be loaded.',
+        );
+      }
+
+      if (investorsResult.status === 'fulfilled') {
+        const response = investorsResult.value;
+
+        setInvestors(
+          Array.isArray(response.investors)
+            ? (response.investors as Investor[])
+            : [],
+        );
+      } else {
+        setInvestors([]);
+
+        errors.push(
+          investorsResult.reason instanceof Error
+            ? `Investors: ${investorsResult.reason.message}`
+            : 'Investors could not be loaded.',
+        );
+      }
+
+      if (errors.length > 0) {
+        setErrorMessage(errors.join(' '));
+      }
     } catch (error) {
       setErrorMessage(
         error instanceof Error
@@ -223,15 +349,37 @@ export default function AdminPage() {
           : 'Could not load admin information.',
       );
     } finally {
-      setBusy(false);
+      loadingDataRef.current = false;
+      setInitialLoading(false);
+      setRefreshing(false);
     }
+  },
+  [token, profile?.role],
+);
+    useEffect(() => {
+  if (loading) {
+    return;
   }
 
-  useEffect(() => {
-    if (token && profile?.role === 'admin') {
-      void loadAllData();
-    }
-  }, [token, profile?.role]);
+  if (!token || profile?.role !== 'admin') {
+    setInitialLoading(false);
+    return;
+  }
+
+  if (loadedTokenRef.current === token) {
+    return;
+  }
+
+  loadedTokenRef.current = token;
+
+  void loadAllData();
+}, [
+  loading,
+  token,
+  profile?.role,
+  loadAllData,
+]);
+    
 
   async function decideSubmission(
     item: Submission,
@@ -417,49 +565,50 @@ export default function AdminPage() {
     }
   }
 
-  if (loading) {
-    return (
-      <main className="admin-access-page">
-        <div className="admin-access-card">
-          Checking administrator access...
-        </div>
+  
+   if (loading || (session && !profile)) {
+  return (
+    <main className="admin-access-page">
+      <div className="admin-access-card">
+        <h1>Checking administrator access...</h1>
+      </div>
 
-        <AdminStyles />
-      </main>
-    );
-  }
+      <AdminStyles />
+    </main>
+  );
+}
 
-  if (!session || profile?.role !== 'admin') {
-    return (
-      <main className="admin-access-page">
-        <div className="admin-access-card">
-          <span className="admin-eyebrow">
-            Protected area
-          </span>
+if (!session) {
+  return (
+    <main className="admin-access-page">
+      <div className="admin-access-card">
+        <h1>Please sign in</h1>
 
-          <h1>Admin access only</h1>
+        <Link href="/auth" className="admin-primary-button">
+          Admin Sign In
+        </Link>
+      </div>
 
-          <p>
-            Only an account marked as an administrator in
-            Supabase can open the ARK administration
-            dashboard.
-          </p>
+      <AdminStyles />
+    </main>
+  );
+}
 
-          <Link
-            href="/auth"
-            className="admin-primary-button"
-          >
-            Admin Sign In
-          </Link>
+if (profile?.role !== "admin") {
+  return (
+    <main className="admin-access-page">
+      <div className="admin-access-card">
+        <h1>Admin access only</h1>
 
-          <Link href="/" className="admin-home-link">
-            Return to Website
-          </Link>
-        </div>
+        <Link href="/" className="admin-primary-button">
+          Return Home
+        </Link>
+      </div>
 
-        <AdminStyles />
-      </main>
-    );
+      <AdminStyles />
+    </main>
+  );
+
   }
 
   return (
@@ -529,6 +678,18 @@ export default function AdminPage() {
       </aside>
 
       <section className="ark-admin-content">
+        {initialLoading && (
+  <div className="admin-page-loading">
+    <div className="admin-loading-spinner" />
+
+    <div>
+      <strong>Loading administration data…</strong>
+      <span>
+        Preparing submissions, members and investors.
+      </span>
+    </div>
+  </div>
+)}
         <header className="ark-admin-header">
           <div>
             <p>ARK Administration</p>
@@ -539,13 +700,13 @@ export default function AdminPage() {
           </div>
 
           <button
-            type="button"
-            className="admin-refresh-button"
-            onClick={() => void loadAllData()}
-            disabled={busy}
-          >
-            {busy ? 'Loading...' : 'Refresh Data'}
-          </button>
+  type="button"
+  className="admin-refresh-button"
+  onClick={() => void loadAllData(true)}
+  disabled={refreshing || initialLoading}
+>
+  {refreshing ? 'Refreshing...' : 'Refresh Data'}
+</button>
         </header>
 
         {message && (

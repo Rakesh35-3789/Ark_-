@@ -90,57 +90,12 @@ export function Header() {
       <header className="ark-site-header">
         <div className="shell ark-header-inner">
           <Link href="/" className="ark-header-brand" aria-label="ARK home">
-            <span className="ark-header-monogram">A.R.K</span>
-
-            <span className="ark-header-brand-copy">
-              <strong>CHRONICLES</strong>
-              <small>Architects of Rising Knowledge</small>
-            </span>
-          </Link>
-<nav className="ark-desktop-navigation" aria-label="Main navigation">
-            <Link href="/" className={isActive('/') ? 'active' : ''}>
-              Home
-            </Link>
-
-            <Link href="/explore" className={isActive('/explore') ? 'active' : ''}>
-              Chronicles
-            </Link>
-
-            <Link href="/founders" className={isActive('/founders') ? 'active' : ''}>
-              Founders
-            </Link>
-
-            <Link
-              href="/magazines"
-              className={isActive('/magazines') ? 'active' : ''}
-            >
-              Magazines
-            </Link>
-
-            <Link href="/research" className={isActive('/research') ? 'active' : ''}>
-              Research
-            </Link>
-
-            <Link
-              href="/opportunities"
-              className={isActive('/opportunities') ? 'active' : ''}
-            >
-              Opportunities
-            </Link>
-
-            <Link href="/about" className={isActive('/about') ? 'active' : ''}>
-              About
-            </Link>
-
-            <Link
-              href="/submit?type=story"
-              className={`ark-submit-link ${
-                isActive('/submit') ? 'active' : ''
-              }`}
-            >
-              Submit Story
-            </Link>
-          </nav>
+  <img
+    src="/ark-logo.png"
+    alt="ARK Chronicle"
+    className="ark-header-logo"
+  />
+</Link>
 
           <div className="ark-header-actions">
             {!loading &&
@@ -342,6 +297,12 @@ export function Header() {
         }
 
         .ark-header-brand {
+        .ark-header-logo {
+  height: 58px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
           display: flex;
           align-items: center;
           gap: 14px;
@@ -780,6 +741,9 @@ export function Header() {
         }
 
         @media (max-width: 480px) {
+        .ark-header-logo {
+  height: 50px;
+}
           .ark-header-inner {
             min-height: 70px;
             gap: 10px;
